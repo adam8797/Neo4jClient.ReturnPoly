@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Adam Schiavone</Authors>
-    <PackageProjectUrl>https://github.com/adam8797/Neo4JClient.ReturnPoly</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/adam8797/Neo4jClient.ReturnPoly</PackageProjectUrl>
     <PackageTags>neo4j, nosql, cypher, bolt, graph, polymorphic, poly</PackageTags>
     <Company />
     <Product />
