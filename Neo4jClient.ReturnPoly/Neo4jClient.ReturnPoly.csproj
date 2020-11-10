@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Adam Schiavone</Authors>
+    <PackageProjectUrl>https://github.com/adam8797/Neo4JClient.ReturnPoly</PackageProjectUrl>
+    <PackageTags>neo4j, nosql, cypher, bolt, graph, polymorphic, poly</PackageTags>
+    <Company />
+    <Product />
+    <Description>A polymorphic JsonConverter and extension methods for Neo4jClient</Description>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Neo4jClient" Version="4.0.3" />
+  </ItemGroup>
+
+</Project>
