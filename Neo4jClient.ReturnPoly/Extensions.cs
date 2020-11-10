@@ -2,7 +2,7 @@
 using Neo4jClient.Cypher;
 using System;
 
-namespace Neo4JClient.ReturnPoly
+namespace Neo4jClient.ReturnPoly
 {
     public static class Extensions
     {

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
 
-namespace Neo4JClient.ReturnPoly
+namespace Neo4jClient.ReturnPoly
 {
     public abstract class ReadOnlyJsonConverter<T> : JsonConverter<T>
     {

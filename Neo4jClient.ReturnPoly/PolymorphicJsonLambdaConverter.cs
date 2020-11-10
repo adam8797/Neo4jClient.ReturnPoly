@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace Neo4JClient.ReturnPoly
+namespace Neo4jClient.ReturnPoly
 {
     public class PolymorphicJsonLambdaConverter<T> : ReadOnlyJsonConverter<T>
     {

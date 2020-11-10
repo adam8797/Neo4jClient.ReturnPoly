@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Neo4JClient.ReturnPoly
+namespace Neo4jClient.ReturnPoly
 {
     public class PolymorphicJsonLabelConverter<T> : ReadOnlyJsonConverter<T>
     {
@@ -43,7 +43,7 @@ namespace Neo4JClient.ReturnPoly
         {
             var jo = JObject.Load(reader);
 
-            var labels = jo["labels"].ToObject<List<string>>();
+            var labels = jo["Labels"].ToObject<List<string>>();
             var node = (JObject)jo["Node"];
             var data = (JObject)node["data"];
 
