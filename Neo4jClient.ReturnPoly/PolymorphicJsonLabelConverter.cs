@@ -43,24 +43,30 @@ namespace Neo4jClient.ReturnPoly
         {
             var jo = JObject.Load(reader);
 
-            var labels = jo["Labels"].ToObject<List<string>>();
-            var node = (JObject)jo["Node"];
-            var data = (JObject)node["data"];
-
-            labels.Remove(typeof(T).Name);
-
-            if (labels.Count == 0)
-                return data.ToObject<T>();
-
-            if (labels.Count == 1)
+            if (jo.ContainsKey("Labels") && jo.ContainsKey("Node") && jo.Count == 2)
             {
-                var chosenType = PotentialTypes().Single(x => x.Name == labels[0]);
-                return (T)data.ToObject(chosenType);
-            }
+                var labels = jo["Labels"].ToObject<List<string>>();
+                var node = (JObject)jo["Node"];
+                var data = (JObject)node["data"];
 
-            throw new InvalidOperationException($"Could not determine proper type based on labels. You may have too many labels on the node. " +
-                $"Labels: {string.Join(", ", labels.Concat(new[] { typeof(T).Name }))}; " +
-                $"Available Types: {string.Join(", ", PotentialTypes().Select(x => x.Name))}");
+                labels.Remove(typeof(T).Name);
+
+                if (labels.Count == 0)
+                    return data.ToObject<T>();
+
+                if (labels.Count == 1)
+                {
+                    var chosenType = PotentialTypes().Single(x => x.Name == labels[0]);
+                    return (T)data.ToObject(chosenType);
+                }
+
+                return (T)data.ToObject(objectType);
+            }
+            else
+            {
+                var data = (JObject)jo["data"];
+                return (T)data.ToObject(objectType);
+            }
         }
     }
 }
