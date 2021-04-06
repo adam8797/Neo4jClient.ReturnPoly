@@ -10,7 +10,7 @@ namespace Neo4jClient.ReturnPoly
     {
         private readonly bool _cachePotentialTypes;
         private readonly bool _exportedTypesOnly;
-        private Type[] _potentialTypeCache;
+        private Dictionary<string, Type>? _potentialTypeCache;
 
         public PolymorphicJsonLabelConverter(bool cachePotentialTypes = true, bool exportedTypesOnly = true)
         {
@@ -21,17 +21,20 @@ namespace Neo4jClient.ReturnPoly
 
         public PolymorphicJsonLabelConverter(params Type[] typeCache)
         {
-            _potentialTypeCache = typeCache;
+            _potentialTypeCache = typeCache.ToDictionary(x => x.Name, x => x);
         }
 
-        private Type[] PotentialTypes()
+        private IDictionary<string, Type> PotentialTypes()
         {
             if (_potentialTypeCache != null)
                 return _potentialTypeCache;
 
             var baseTypeSet = _exportedTypesOnly ? typeof(T).Assembly.GetExportedTypes() : typeof(T).Assembly.GetTypes();
 
-            var potential = baseTypeSet.Where(x => typeof(T).IsAssignableFrom(x)).ToArray();
+            var potential = baseTypeSet
+                .Where(x => typeof(T).IsAssignableFrom(x)) // public class x : T {}
+                .Where(x => !x.IsInterface && !x.IsAbstract) // Concrete types only, we can't produce abstract classes or interfaces
+                .ToDictionary(x => x.Name, x => x);
 
             if (_cachePotentialTypes)
                 _potentialTypeCache = potential;
@@ -51,15 +54,25 @@ namespace Neo4jClient.ReturnPoly
 
                 labels.Remove(typeof(T).Name);
 
+                var labelMap = PotentialTypes();
+
+                // No label to look up, try our best
                 if (labels.Count == 0)
                     return data.ToObject<T>();
 
-                if (labels.Count == 1)
+                // If we have one label, this is a single pass
+                // otherwise, sort the labels so its deterministic,
+                // and take the first valid type we find
+                foreach (var label in labels)
                 {
-                    var chosenType = PotentialTypes().Single(x => x.Name == labels[0]);
-                    return (T)data.ToObject(chosenType);
+                    if (labelMap.ContainsKey(label))
+                    {
+                        var chosenType = labelMap[label];
+                        return (T) data.ToObject(chosenType);
+                    }
                 }
 
+                // Something went quite wrong. Do our best
                 return (T)data.ToObject(objectType);
             }
             else
