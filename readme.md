@@ -4,12 +4,12 @@ A polymorphic return function for Neo4jClient
 
 This library adds two extension methods, and some JsonConverters that allow you to return polymorphic entities from a Neo4j database.
 
+**Available on NuGet!**
+[![NuGet version (Neo4jClient.ReturnPoly)](https://img.shields.io/nuget/v/Neo4jClient.ReturnPoly.svg?style=flat-square)](https://www.nuget.org/packages/Neo4jClient.ReturnPoly/)
 
-
-There are two ways of using this library:
-
-1. Label based polymorphism
-2. Lambda based polymorphism
+```
+Install-Package Neo4jClient.ReturnPoly
+```
 
 
 
