@@ -20,6 +20,9 @@ namespace Neo4jClient.ReturnPoly
             if (jo.ContainsKey("data") && jo.Count == 1)
                 jo = (JObject)jo["data"];
 
+            if (jo == null || jo.Type == JTokenType.Null)
+                return default;
+
             var type = _determineType(jo);
             return (T)jo.ToObject(type);
         }
