@@ -46,6 +46,17 @@ namespace Neo4jClient.ReturnPoly
         {
             var jo = JObject.Load(reader);
 
+            // Sometimes we get an odd case where we get back
+            // the Node/Labels object, but its wrapped up in a data object
+            if (jo.ContainsKey("data") &&
+                jo.Count == 1 &&
+                jo["data"].Type == JTokenType.Object &&
+                ((JObject)jo["data"]).ContainsKey("Node") &&
+                ((JObject)jo["data"]).ContainsKey("Labels"))
+            {
+                jo = (JObject)jo["data"];
+            }
+
             if (jo.ContainsKey("Labels") && jo.ContainsKey("Node") && jo.Count == 2)
             {
                 var nodeObj = jo["Node"];
