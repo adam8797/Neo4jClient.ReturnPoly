@@ -48,9 +48,20 @@ namespace Neo4jClient.ReturnPoly
 
             if (jo.ContainsKey("Labels") && jo.ContainsKey("Node") && jo.Count == 2)
             {
-                var labels = jo["Labels"].ToObject<List<string>>();
-                var node = (JObject)jo["Node"];
-                var data = (JObject)node["data"];
+                var nodeObj = jo["Node"];
+                var labelsObj = jo["Labels"];
+                
+                if (nodeObj == null || labelsObj == null || nodeObj.Type == JTokenType.Null)
+                    return default;
+            
+                var labels = labelsObj.ToObject<List<string>>();
+                var node = (JObject)nodeObj;
+                
+                var dataObj = node["data"];
+                if (dataObj == null || dataObj.Type == JTokenType.Null)
+                    return default;
+                
+                var data = (JObject)dataObj;
 
                 labels.Remove(typeof(T).Name);
 
