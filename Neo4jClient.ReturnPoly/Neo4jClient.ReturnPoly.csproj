@@ -12,7 +12,7 @@
     <Company />
     <Product />
     <Description>A polymorphic JsonConverter and extension methods for Neo4jClient</Description>
-    <Version>1.0.3</Version>
+    <Version>1.0.5</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <LangVersion>8</LangVersion>
     <Nullable>enable</Nullable>
